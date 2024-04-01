@@ -35,16 +35,21 @@ def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray)
     x_max = x[-1]
     dx = x[1]-x[0]
 
-    # Plot potential with scaling
-    fig, ax = plt.subplots(1,1,figsize=(8,4))
-    # TODO: to fix
-    ax.plot(x, potential*np.max(solution)/np.max(potential), '--k', lw=1)
-    ln1, = ax.plot([], [], '-r', lw=2, markersize=8, label="Finite_Difference")
-    ax.set_ylim(y_min-1, y_max+1)
-    ax.set_xlim(x_min-dx, x_max+dx)
-    ax.set_ylabel('$|\psi(x)|^2$', fontsize=20)
-    ax.set_xlabel('$x/L$', fontsize=20)
-    ax.legend(loc='upper left')
+    # Plot potential
+    fig, ax1 = plt.subplots(1,1,figsize=(8,4))
+    color = 'tab:red'
+    ln1, = ax1.plot([], [], '-r', lw=2)
+    ax1.tick_params(axis='y')
+    ax1.set_ylim(y_min-1, y_max+1)
+    ax1.set_xlim(x_min-dx, x_max+dx)
+    ax1.set_ylabel('$|\psi(x)|^2$', color=color, fontsize=20)
+    ax1.set_xlabel('$x$', fontsize=20)
+
+    # Plot solution
+    ax2 = ax1.twinx()
+    ax2.set_ylabel('$V(x)$', fontsize=20)
+    ax2.plot(x, potential, '--k')
+    ax2.tick_params(axis='y')
     plt.tight_layout()
 
     # Save the animation as a GIF
