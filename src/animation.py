@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from matplotlib.animation import FuncAnimation
 
-def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray, name:str = 'schrodinger.gif'):
+def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray, skip:int=10, name:str = 'schrodinger.gif'):
     '''
     Creates an animation from the computed solution of a numerical scheme.
 
@@ -22,7 +22,7 @@ def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray,
     def update(frame):
         # Updates the data for each frame of the animation
         print(frame,end='\r')
-        ln1.set_data(x, solution[10*frame])
+        ln1.set_data(x, solution[skip*frame])
     
     # Initialize the animation settings
     plt.rcParams["animation.html"] = "jshtml"
@@ -38,7 +38,7 @@ def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray,
     # Plot potential
     fig, ax1 = plt.subplots(1,1,figsize=(8,4))
     color = 'tab:red'
-    ln1, = ax1.plot([], [], '-r', lw=2)
+    ln1, = ax1.plot([], [], '-r', lw=2, zorder=2)
     ax1.tick_params(axis='y')
     ax1.set_ylim(y_min-1, y_max+1)
     ax1.set_xlim(x_min-dx, x_max+dx)
@@ -48,14 +48,13 @@ def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray,
     # Plot solution
     ax2 = ax1.twinx()
     ax2.set_ylabel('$V(x)$', fontsize=20)
-    ax2.plot(x, potential, '--k')
+    ax2.plot(x, potential, '--k', zorder=1)
     ax2.tick_params(axis='y')
     plt.tight_layout()
 
     # Save the animation as a GIF
     path = os.path.dirname(__file__)
     path = os.path.join(path, '..', 'output_gifs', name)
-    # TODO: fix the //10
-    ani = FuncAnimation(fig, update, init_func=initalize, frames=min(solution.shape[0]//10,1000), interval=50)
+    ani = FuncAnimation(fig, update, init_func=initalize, frames=min(solution.shape[0]//skip,1000), interval=50)
     ani.save(path, writer='pillow', fps=30)
     #ani.save(path, writer='pillow', fps=50, dpi=100)
