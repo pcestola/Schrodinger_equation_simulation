@@ -21,3 +21,8 @@ All the code is written using **Python 3.10.12**. Below there are some examples 
 <p align="center">
   <img src="/output_gifs/Harmonic_oscillator.gif" width="600" />
 </p>
+
+### Coming soon
+<p align="center">
+  <img src="/output_gifs/schrodinger.gif" width="600" />
+</p>
