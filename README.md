@@ -10,8 +10,14 @@ As the simulation concludes, the evolution of the quantum system's wave function
 The resulting GIF captures the behavior over time, offering educational insights into the simulated scenario.
 
 ## 💻Code
-All the code is written using **Python 3.10.12**. Below there is an example of the GIF that can be produced with the code. The code to produce this GIF is available in **test.ipynb**.
+All the code is written using **Python 3.10.12**. Below there are some examples of the GIFs that can be produced with the code. The code to produce the first GIF is available in **test.ipynb**.
 
+### Tunneling
 <p align="center">
   <img src="/output_gifs/schrodinger.gif" width="600" />
+</p>
+
+### Harmonic oscillator
+<p align="center">
+  <img src="/output_gifs/armonic_oscillator.gif" width="600" />
 </p>
