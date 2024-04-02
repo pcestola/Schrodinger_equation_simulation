@@ -14,10 +14,10 @@ All the code is written using **Python 3.10.12**. Below there are some examples 
 
 ### Tunneling
 <p align="center">
-  <img src="/output_gifs/schrodinger.gif" width="600" />
+  <img src="/output_gifs/Tunneling.gif" width="600" />
 </p>
 
 ### Harmonic oscillator
 <p align="center">
-  <img src="/output_gifs/armonic_oscillator.gif" width="600" />
+  <img src="/output_gifs/Harmonic_oscillator.gif" width="600" />
 </p>
