@@ -66,7 +66,7 @@ def compute_solution_cpu(solution:np.ndarray, iteration_matrix:scipy.sparse._csc
         # Solve the t-th linear system
         solution[t+1] = LU_method.solve(solution[t])
         # Normalize the solution
-        norm = np.sqrt(np.sum(np.abs(solution[t + 1]) ** 2) * dx)
+        norm = np.sqrt(np.sum(np.abs(solution[t+1]) ** 2) * dx)
         solution[t+1] /= norm
 
     # Return
