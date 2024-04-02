@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from matplotlib.animation import FuncAnimation
 
-def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray):
+def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray, name:str = 'schrodinger.gif'):
     '''
     Creates an animation from the computed solution of a numerical scheme.
 
@@ -54,7 +54,8 @@ def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray)
 
     # Save the animation as a GIF
     path = os.path.dirname(__file__)
-    path = os.path.join(path, '..', 'output_gifs', 'schrodinger.gif')
+    path = os.path.join(path, '..', 'output_gifs', name)
     # TODO: fix the //10
     ani = FuncAnimation(fig, update, init_func=initalize, frames=min(solution.shape[0]//10,1000), interval=50)
-    ani.save(path, writer='pillow', fps=50, dpi=100)
+    ani.save(path, writer='pillow', fps=30)
+    #ani.save(path, writer='pillow', fps=50, dpi=100)
