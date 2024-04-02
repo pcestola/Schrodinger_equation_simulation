@@ -38,7 +38,7 @@ def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray,
     # Plot potential
     fig, ax1 = plt.subplots(1,1,figsize=(8,4))
     color = 'tab:red'
-    ln1, = ax1.plot([], [], '-r', lw=2, zorder=2)
+    ln1, = ax1.plot([], [], '-r', lw=2, zorder=1)
     ax1.tick_params(axis='y')
     ax1.set_ylim(y_min-1, y_max+1)
     ax1.set_xlim(x_min-dx, x_max+dx)
@@ -48,7 +48,7 @@ def create_animation(x: np.ndarray, solution: np.ndarray, potential: np.ndarray,
     # Plot solution
     ax2 = ax1.twinx()
     ax2.set_ylabel('$V(x)$', fontsize=20)
-    ax2.plot(x, potential, '--k', zorder=1)
+    ax2.plot(x, potential, '--k', zorder=2)
     ax2.tick_params(axis='y')
     plt.tight_layout()
 
