@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from scipy.sparse import diags
-from .gpu import compute_solution_gpu
-from .animation import create_animation
+from .solve import compute_solution_gpu
+from .solve import compute_solution_cpu
 
 class Solver:
     '''
@@ -34,20 +34,19 @@ class Solver:
         Outputs:
         - iteration_matrix (np.ndarray): An array representing the iteration matrix.
         '''
-        # Prima matrice
+        # First matrix
         constant_1 = -1j * self.time_step / self.space_step**2
         Diagonal_1 = (1 - constant_1) * np.ones(self.number_space_steps-2, dtype=np.complex128) + 1j * self.time_step * potential
         
-        # Seconda matrice
+        # Second matrix
         constant_2 = constant_1 / 2
         Diagonal_2 = constant_2 * np.ones(self.number_space_steps-3, dtype=np.complex128)
         
-        # Creazione della matrice sparsa usando scipy invece di cupyx
-        iteration_matrix = diags([Diagonal_1, Diagonal_2, Diagonal_2], offsets=[0, -1, 1], shape=(self.number_space_steps-2, self.number_space_steps-2), format='csr')
-        
+        # Iteration matrix
+        iteration_matrix = diags([Diagonal_1, Diagonal_2, Diagonal_2], offsets=[0, -1, 1], shape=(self.number_space_steps-2, self.number_space_steps-2), format='csc')
         return iteration_matrix
     
-    def solve(self, initial_condition: np.ndarray, potential: np.ndarray, verbose=False):
+    def solve(self, initial_condition: np.ndarray, potential: np.ndarray, gpu=False, verbose=False):
         '''
         Given an initial condition and a potential, computes the solution of the numerical scheme.
 
@@ -60,7 +59,7 @@ class Solver:
         - solution (np.ndarray): An array representing the solution.
         '''
         # Checking the used device
-        if verbose:
+        if verbose and gpu:
             gpu_id = cp.cuda.runtime.getDevice()
             print(f"Using GPU: ID {gpu_id}")
         
@@ -75,7 +74,10 @@ class Solver:
 
         # Compute the solution (GPU)
         if verbose: print("Solving numerical scheme")
-        solution = compute_solution_gpu(solution, iteration_matrix, self.number_time_steps, self.space_step)
+        if gpu:
+            solution = compute_solution_gpu(solution, iteration_matrix, self.number_time_steps, self.space_step)
+        else:
+            solution = compute_solution_cpu(solution, iteration_matrix, self.number_time_steps, self.space_step)
 
         # Convert the final solution into an np.ndarray
         if verbose: print("Returning solution")
